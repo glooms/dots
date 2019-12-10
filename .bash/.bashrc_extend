@@ -27,7 +27,7 @@ for s in $(ls ~/.bash/*.sh); do
   source $s
 done
 
-alias d='docker'
+alias d='sudo docker'
 alias dc='docker-compose'
 alias k='kubectl'
 
@@ -54,7 +54,7 @@ eval $(ssh-agent -s) > /dev/null
 export ACCEPT_EULA=yes
 
 #Gogogogo things
-export GOPATH=~/gop
+export GOPATH=~/go
 
 if [ -d "$GOPATH/bin" ] ; then
     PATH="$GOPATH/bin:$PATH"
@@ -97,3 +97,6 @@ alias server='python -m SimpleHTTPServer'
 
 export HISTCONTROL=ignorespace
 alias firefox="/c/Program\ Files\ \(x86\)/Mozilla\ Firefox/firefox.exe"
+
+# Customize bash prompt
+PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]dxa@lnx\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
