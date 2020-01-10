@@ -6,7 +6,7 @@ alias rsrc='source ~/.bashrc && source ~/.bash/.bashrc_extend'
 alias vimrc='vim ~/.vimrc'
 alias vimswp='cd ~/.vim/swap'
 
-alias tmux='TERM=xterm-256color tmux'
+alias t='TERM=xterm-256color tmux'
 alias ts='tmux list-sessions'
 alias ta='tmux attach -t'
 
@@ -97,3 +97,5 @@ alias server='python -m SimpleHTTPServer'
 
 export HISTCONTROL=ignorespace
 alias firefox="/c/Program\ Files\ \(x86\)/Mozilla\ Firefox/firefox.exe"
+
+wwi

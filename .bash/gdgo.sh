@@ -8,6 +8,8 @@ gd() {
     "-y"|"--yaml")
       res=$(echo "$res" | grep "\.ya\?ml$")
       ;;
+    "-a"|"--all")
+      ;;
     *)
       echo "Invalid arguments"
       echo "gd [filter]"
@@ -29,36 +31,35 @@ gdd() {
   echo -e "$(git diff --color=always master $file)"
 }
 
-gdgo() {
-  if [[ -z $1 ]]; then
-    echo "gdgo <number>"
-    echo "Open file from the gd_cache"
-    return
-  fi
-  local file
-  file=$(cat ~/.bash/.gd_cache | head -n $1 | tail -n 1)
-  vim $file
-}
-
 _cache_gd() {
   local m a
   base=$(pwd)
   m="\e[33m"
   a="\e[32m"
+  d="\e[31m"
   echo -n > ~/.bash/.gd_cache
-  echo -e $m"MODIFIED\e[0m\t"$a"ADDED\e[0m"
+  echo -e $m"MODIFIED\t"$a"ADDED\t\t"$d"DELETED\e[0m"
   i=1
   while read line
   do
     stat=${line:0:1}
     file=$(echo $line | cut -d ' ' -f 2)
-    if [[ $stat == "M" ]]; then
-      echo -e $m"$i:\e[0m\t$file"
-    elif [[ $stat == "A" ]]; then
-      echo -e $a"$i:\e[0m\t$file"
-    else
-      echo -e "\e[36m$i:\e[0m\t$file"
+    if [[ -z $file ]]; then
+      continue
     fi
+    case $stat in
+      "M")
+        echo -e $m"$i:\e[0m\t$file"
+        ;;
+      "A")
+        echo -e $a"$i:\e[0m\t$file"
+        ;;
+      "D")
+        echo -e $d"$i:\e[0m\t$file"
+        ;;
+      *)
+        echo -e "\e[36m$i:\e[0m\t$file"
+    esac
     echo $base/$file >> ~/.bash/.gd_cache
     i=$((i+1))
   done <&0
