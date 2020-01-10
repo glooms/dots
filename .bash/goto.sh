@@ -22,5 +22,6 @@ goto() {
       return
   esac
   vim_args=$(cat ~/.bash/$cache | head -n $1 | tail -n 1 | cut -d ':' -f 1-2 --output-delimiter=' +')
+  echo "vim $vim_args"
   vim $vim_args
 }

@@ -7,7 +7,7 @@ lkup() {
     WDIR=$(pwd)
     while [[ $(pwd) != '/' ]]; do
       if [[ -d '.git' ]]; then
-        grep -rnPI --exclude-dir={vendor,.git,node_modules} --color=always $1 | _cache_lkup
+        grep -rnPI --exclude-dir={vendor,.git,node_modules} --color=always $@ | _cache_lkup
         break
       fi
       cd ..
