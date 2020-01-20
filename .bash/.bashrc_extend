@@ -1,6 +1,10 @@
 alias gc='git commit'
 alias gs='git status'
 
+glone() {
+  git clone git@github.com:$1
+}
+
 alias rsrc='source ~/.bashrc && source ~/.bash/.bashrc_extend'
 
 alias vimrc='vim ~/.vimrc'
@@ -90,8 +94,8 @@ wrun() {
 }
 
 alias whome='cd /c/Users/dxa/'
-alias janson='python -i ~/toolkit/janson.py'
-alias deps='python3.7 -i ~/toolkit/deps.py'
+alias janson='python -i ~/hax/toolkit/janson.py'
+alias deps='python3.7 -i ~/hax/toolkit/deps.py'
 
 alias server='python -m SimpleHTTPServer'
 
