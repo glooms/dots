@@ -1,4 +1,8 @@
 gd() {
+  if [[ $1 == "" ]]; then
+    git diff master
+    return
+  fi
   local res
   res="$(git diff master --name-status)"
   case $1 in
