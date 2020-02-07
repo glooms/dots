@@ -4,17 +4,18 @@ glone() {
 
 __glone() {
   if [[ -z $2 ]]; then
-    return
-  elif [[ $2 = */* ]]; then
-    repos=$(tail -n+2 ~/.bash/.glone_cache)
+    orgs="qlik-trial/ golang/ go-delve/ other/" #TODO this should be generated somehow
+    for org in $orgs; do
+      COMPREPLY+=("$org")
+      (gurl "$org" &)
+    done
+  else
+    repos=$(cat ~/.bash/.glone_cache)
     for r in $repos; do
       if [[ $r = $2* ]]; then
         COMPREPLY+=("$r")
       fi
     done
-  else
-    COMPREPLY+=(qlik-trial/)
-    gurl "qlik-trial/"
   fi
 }
 
