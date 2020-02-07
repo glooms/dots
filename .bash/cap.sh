@@ -19,7 +19,7 @@ cap () {
       echo $line
     else
       echo -e "\e[36m$i:\e[0m\t$match"
-      if [[ $match = $base* ]]; then #Handle stack traces
+      if [[ $match = ~/* ]]; then #Handle stack traces
         match=$(echo $match | cut -d ' ' -f 1)
         echo $match | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g" >> ~/.bash/.cap_cache
       else #Handle build errors

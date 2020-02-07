@@ -45,6 +45,10 @@ nnoremap \H :set nohlsearch <CR>
 nnoremap \p :set paste <CR>
 nnoremap \P :set nopaste <CR>
 
+"Number
+nnoremap \n :set nonumber <CR>
+nnoremap \N :set number <CR>
+
 "Copy to windows clipboard
 nnoremap cx :! echo '<C-R>0' <bar> clip.exe<CR><CR>
 
