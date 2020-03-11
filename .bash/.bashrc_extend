@@ -10,6 +10,10 @@ alias t='TERM=xterm-256color tmux'
 alias ts='tmux list-sessions'
 alias ta='tmux attach -t'
 
+alias f='find . -name'
+
+alias idk='echo "¯\_(ツ)_/¯"'
+
 complete -o default -F _ts ta
 
 _ts() {
@@ -74,6 +78,10 @@ fi
 
 if [ $(which helm) ]; then
   . <(helm completion bash)
+fi
+
+if [ $(which qlik) ]; then
+  . <(qlik comp)
 fi
 
 # Since it seems I have to run docker

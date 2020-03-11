@@ -24,6 +24,10 @@ hi ExtraWhiteSpace ctermbg=magenta guibg=pink
 match ExtraWhiteSpace /\s\+$/
      
 
+hi CommentComment ctermbg=darkgreen ctermfg=white
+2match CommentComment /COMMENT/
+"COMMENT
+
 nmap <silent> <C-i> "=nr2char(getchar())<cr>P
 
 "Discipline

@@ -62,7 +62,7 @@ _cache_gd() {
         echo -e $d"$i:\e[0m\t$file"
         ;;
       *)
-        echo -e "\e[36m$i:\e[0m\t$file"
+        continue
     esac
     echo $base/$file >> ~/.bash/.gd_cache
     i=$((i+1))

@@ -1,7 +1,7 @@
 color() {
   echo "COLORS"
   echo "  bash: \e[38;5;<code>m"
-  echo "  go:   \x1b[38;5;<code>m\n"
+  echo "  go:   \x1b[38;5;<code>m"
   file="$HOME/.bash/.color_cache"
   if [[ -f $file ]]; then
     echo -e $(cat $file)
