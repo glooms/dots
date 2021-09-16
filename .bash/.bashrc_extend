@@ -1,5 +1,6 @@
 alias gc='git commit'
 alias gs='git status'
+alias gr='cd $(git rev-parse --show-toplevel)'
 
 alias rsrc='source ~/.bashrc && source ~/.bash/.bashrc_extend'
 
@@ -12,8 +13,6 @@ alias ta='tmux attach -t'
 
 alias f='find . -name'
 
-alias idk='echo "¯\_(ツ)_/¯"'
-
 complete -o default -F _ts ta
 
 _ts() {
@@ -22,6 +21,16 @@ _ts() {
     COMPREPLY+=("$c")
   done
 }
+
+# funny name to avoid name-space collision
+le_git_main() {
+  echo $(git symbolic-ref refs/remotes/origin/HEAD | grep -o "\w\+$")
+}
+
+gu() {
+  git checkout $(le_git_main) && git pull && prune
+}
+
 
 srch() {
   history | grep $1 | vim -
@@ -42,11 +51,21 @@ dsh() {
   docker exec -it $1 sh
 }
 
-alias p='python'
+__dsh() {
+  if [[ $1 != $3 ]]; then
+    return
+  fi
+  for id in $(docker ps -q | grep "^$2"); do
+    COMPREPLY+=("$id")
+  done
+}
+
+complete -F __dsh dsh
+
 if [ -z $(which "python3.7") ]; then
-  alias p3=python3
+  alias p=python3
 else
-  alias p3='python3.7' #Some things about python I do not like.
+  alias p='python3.7' #Some things about python I do not like.
 fi
 
 # Punch related alias
@@ -62,6 +81,12 @@ export GOPATH=~/go
 
 if [ -d "$GOPATH/bin" ] ; then
     PATH="$GOPATH/bin:$PATH"
+fi
+
+#Linuxbrew
+BREW_BIN="/home/linuxbrew/.linuxbrew/bin"
+if [ -d $BREW_BIN ]; then
+  PATH="$PATH:$BREW_BIN"
 fi
 
 # Corectl tab completion
@@ -81,29 +106,20 @@ if [ $(which helm) ]; then
 fi
 
 if [ $(which qlik) ]; then
-  . <(qlik comp)
+  . <(qlik completion bash)
 fi
 
-# Since it seems I have to run docker
-# from windows:
-alias gsh='/c/Program\ Files/Git/git-bash.exe &'
 
-wrun() {
-  local pid
-  echo $@ >> queue.sh
-  gsh
-  pid=$!
-  wait $pid
-  rm queue.sh
-}
-
-alias whome='cd /c/Users/dxa/'
 alias janson='python -i ~/hax/toolkit/janson.py'
 alias deps='python3.7 -i ~/hax/toolkit/deps.py'
 
 alias server='python -m SimpleHTTPServer'
 
 export HISTCONTROL=ignorespace
+
+export CORECTL_PATH=/home/qlik/gits/oss/corectl
+
+export HELM_EXPERIMENTAL_OCI=1
 
 # Customize bash prompt
 PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]dxa@lnx\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '

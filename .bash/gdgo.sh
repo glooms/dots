@@ -1,10 +1,13 @@
 gd() {
+  if [[ -z $BRANCH ]]; then
+    BRANCH=$(le_git_main)
+  fi
   if [[ $1 == "" ]]; then
-    git diff master
+    git diff $BRANCH
     return
   fi
   local res
-  res="$(git diff master --name-status)"
+  res="$(git diff $BRANCH --name-status)"
   case $1 in
     "-g"|"--go")
       res=$(echo "$res" | grep -v vendor | grep \.go$)
@@ -25,19 +28,27 @@ gd() {
 }
 
 gdd() {
+  __main=$(git symbolic-ref refs/remotes/origin/HEAD | rev | cut -d '/' -f 1 | rev)
   if [[ -z $1 ]]; then
-    echo "gdd <number>"
-    echo "Show diff of a file against master (from the gd_cache)"
+    echo "gdd <number>|each"
+    echo "Show diff of a file against $__main (from the gd_cache)"
     return
   fi
   local file
-  file=$(cat ~/.bash/.gd_cache | head -n $1 | tail -n 1)
-  echo -e "$(git diff --color=always master $file)"
+  if [[ $1 = "each" ]]; then
+    while read file
+    do
+      git diff $__main $file
+    done < ~/.bash/.gd_cache
+  else
+    file=$(cat ~/.bash/.gd_cache | head -n $1 | tail -n 1)
+    git diff $__main $file
+  fi
 }
 
 _cache_gd() {
   local m a
-  base=$(pwd)
+  base=$(git rev-parse --show-toplevel)
   m="\e[33m"
   a="\e[32m"
   d="\e[31m"

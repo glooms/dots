@@ -1,4 +1,8 @@
-colorscheme delek
+if &background == "light"
+  colorscheme delek_light
+else
+  colorscheme delek
+endif
 autocmd BufEnter *.ps1 colorscheme elflord
 autocmd BufEnter *.ps1 highlight ExtraWhiteSpace ctermbg=magenta guibg=pink
 
@@ -17,6 +21,9 @@ autocmd BufEnter *.yaml match Tabs /\t/
 autocmd BufEnter *.yml highlight Tabs ctermbg=red guibg=pink
 autocmd BufEnter *.yml match Tabs /\t/
 
+"Docker highligh
+autocmd BufNewFile,BufRead Dockerfile* set syntax=dockerfile
+
 set number
 
 "Wennmo complaining about trailing whitespaces
@@ -25,7 +32,7 @@ match ExtraWhiteSpace /\s\+$/
      
 
 hi CommentComment ctermbg=darkgreen ctermfg=white
-2match CommentComment /COMMENT/
+2match CommentComment /\(COMMENT\)\|\(NOTE\)/
 "COMMENT
 
 nmap <silent> <C-i> "=nr2char(getchar())<cr>P
@@ -40,7 +47,7 @@ nnoremap ,v :vsplit<space>
 nnoremap ,h :split<space>
 
 "Search and highlighting
-hi Search ctermbg=darkgray
+hi Search ctermbg=gray
 
 nnoremap \h :set hlsearch <CR>
 nnoremap \H :set nohlsearch <CR>
@@ -65,7 +72,6 @@ augroup autosourcing
   autocmd!
   autocmd BufWritePost .vimrc source %
 augroup END
-
 
 set nocompatible              " be iMproved, required
 filetype off                  " required

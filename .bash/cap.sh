@@ -14,7 +14,7 @@ cap () {
   i=1
   while read line
   do
-    match=$(echo $line | grep -P --color=always "\.\w+:\d+(:\d+| \+0x[0-9a-f]+)")
+    match=$(echo $line | grep -P --color=always "\.\w+:\d+(:\d+| \+0x[0-9a-f]+)?")
     if [[ -z $match ]]; then
       echo $line
     else
