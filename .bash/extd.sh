@@ -19,7 +19,7 @@ extd() {
 
 __extd() {
   local comp
-  comp=$(ls ~/.bash/$2*.sh 2> /dev/null | xargs -n 1 basename 2> /dev/null)
+  comp=$(ls {~/.bash/$2*.sh,~/.bash/$2*.py} 2> /dev/null | xargs -n 1 basename 2> /dev/null)
   for c in $comp; do
     COMPREPLY+=("$c")
   done

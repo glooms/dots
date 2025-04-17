@@ -1,6 +1,13 @@
 colorscheme delek
+hi DiffAdd ctermbg=green
+hi DiffChange ctermbg=brown
+hi DiffDelete ctermbg=darkred
+hi DiffText ctermbg=brown
+
 autocmd BufEnter *.ps1 colorscheme elflord
 autocmd BufEnter *.ps1 highlight ExtraWhiteSpace ctermbg=magenta guibg=pink
+autocmd BufEnter *.psm1 colorscheme elflord
+autocmd BufEnter *.psm1 highlight ExtraWhiteSpace ctermbg=magenta guibg=pink
 
 "Indentation
 set nowrap
@@ -10,6 +17,9 @@ set shiftwidth=2
 set expandtab
 
 au FileType go setl sw=8 sts=8 ts=8 noet
+au FileType py setl sw=4 sts=4 ts=4 noet
+"au FileType markdown setl wrap linebreak
+
 
 "yaml stuff
 autocmd BufEnter *.yaml highlight Tabs ctermbg=red guibg=pink
@@ -18,13 +28,38 @@ autocmd BufEnter *.yml highlight Tabs ctermbg=red guibg=pink
 autocmd BufEnter *.yml match Tabs /\t/
 
 set number
+"set colorcolumn=100
 
 "Wennmo complaining about trailing whitespaces
-hi ExtraWhiteSpace ctermbg=magenta guibg=pink
+hi ExtraWhiteSpace ctermbg=magenta
 match ExtraWhiteSpace /\s\+$/
      
 
+hi CommentComment ctermbg=darkgreen ctermfg=white
+2match CommentComment /\(COMMENT\)\|\(NOTE\)/
+"COMMENT
+"NOTE
+
 nmap <silent> <C-i> "=nr2char(getchar())<cr>P
+
+"Bind \g to jump to imported file (with relative path).
+"The following three lines do that.
+"TODO make it more generic with a regex instead
+"E.g. this one: [.\/A-Za-z0-9\-_]\+\.[a-z_]\+\(:[0-9]\+\)\?
+
+"Set wd to file-dir
+"set autochdir
+"Make <Tab> trigger completion
+set wildcharm=<Tab>
+
+"Get file-name - end-of-line and then yank what's in single-quotes.
+"Then open the yanked file in a new tab.
+nmap \g g_hT'yt':tabe <C-r>0<Tab><CR>
+
+nmap \v :exec 'vim /' . expand('<cword>') . '/ *'
+
+"Solve with regex for more complicated patterns... but harder to navigate
+"nmap \x ^/[.\/A-Za-z0-9\-_]\+\.[a-z_]\+\(:[0-9]\+\)\?<CR>yn :tabe <C-r>0
 
 "Discipline
 noremap <Up> <NOP>
@@ -36,7 +71,7 @@ nnoremap ,v :vsplit<space>
 nnoremap ,h :split<space>
 
 "Search and highlighting
-hi Search ctermbg=darkgray
+hi Search ctermbg=darkgrey
 
 nnoremap \h :set hlsearch <CR>
 nnoremap \H :set nohlsearch <CR>
@@ -44,6 +79,10 @@ nnoremap \H :set nohlsearch <CR>
 "Pasting
 nnoremap \p :set paste <CR>
 nnoremap \P :set nopaste <CR>
+
+"Number
+nnoremap \n :set nonumber <CR>
+nnoremap \N :set number <CR>
 
 "Copy to windows clipboard
 nnoremap cx :! echo '<C-R>0' <bar> clip.exe<CR><CR>
@@ -70,10 +109,13 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
-"Plugin 'w0rp/ale'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'PProvost/vim-ps1'
 Plugin 'editorconfig/editorconfig-vim'
+Plugin 'leafgarland/typescript-vim'
+Plugin 'bogado/file-line'
+"Plugin 'fatih/vim-go'
+
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
